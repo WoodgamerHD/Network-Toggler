@@ -136,7 +136,7 @@ namespace WinFormsApp2
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            string githubUrl = "https://github.com/Sinnisterly";
+            string githubUrl = "https://github.com/Sinnisterly/Network-Toggler/";
             var psi = new System.Diagnostics.ProcessStartInfo
             {
                 UseShellExecute = true,
