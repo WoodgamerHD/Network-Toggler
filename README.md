@@ -9,7 +9,6 @@
   <p align="center">
     A simple program to select a network adapter and disable it for a set time in seconds.
     <br/>
-    <br/?
     <br/>
     <br/>
     <a href="https://github.com/Sinnisterly/Network-Toggler/issues">Report Bug</a>
@@ -30,9 +29,9 @@
 * [Authors](#authors)
 
 ## About The Project
-<p align="center">
+
 ![Screen Shot](https://i.imgur.com/4u0qfa4.png)
-</p>
+
 There wasn't a huge need for this program, but many people were saying how inconvenient it is to manually do it, so here it is.
 
 * Your time should be focused on what you're doing, not toggling your network.
