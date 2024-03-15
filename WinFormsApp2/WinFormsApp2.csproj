@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+
+	<PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>Network Toggler</AssemblyName>
+    <ApplicationIcon>2931144_connect_internet_signal_wifi_wireless_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+	
+
+	<ItemGroup>
+	  <Content Include="2931144_connect_internet_signal_wifi_wireless_icon.ico" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Management" Version="4.5.0" />
+		<!-- Other PackageReference elements may be present here -->
+	</ItemGroup>
+
+
+</Project>
