@@ -17,7 +17,7 @@
   </p>
 </p>
 
-![Downloads](https://img.shields.io/github/downloads/Sinnisterly/Network-Toggler/total) ![Contributors](https://img.shields.io/github/contributors/Sinnisterly/Network-Toggler?color=dark-green) ![Issues](https://img.shields.io/github/issues/Sinnisterly/Network-Toggler) 
+![Contributors](https://img.shields.io/github/contributors/Sinnisterly/Network-Toggler?color=dark-green) ![Issues](https://img.shields.io/github/issues/Sinnisterly/Network-Toggler) 
 
 ## Table Of Contents
 
