@@ -4,6 +4,8 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Management;
 
+
+//Created by Loathe (Sinnisterly on GitHub) 
 namespace WinFormsApp2
 {
     partial class Form1 : Form
