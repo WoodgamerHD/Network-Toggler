@@ -4,7 +4,6 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Management;
 
-
 //Created by Loathe (Sinnisterly on GitHub) 
 namespace WinFormsApp2
 {
@@ -16,6 +15,7 @@ namespace WinFormsApp2
         public Form1()
         {
             InitializeComponent();
+        DoubleBuffered = true;
             PopulateNetworkAdapters();
         }
 
@@ -24,7 +24,7 @@ namespace WinFormsApp2
             comboBox1.Items.Clear();
             foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
             {
-                if (ni.OperationalStatus == OperationalStatus.Up && ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                if (ni.OperationalStatus == OperationalStatus.Up && ni.NetworkInterfaceType!= NetworkInterfaceType.Loopback)
                 {
                     comboBox1.Items.Add(ni.Name);
                 }
@@ -40,16 +40,18 @@ namespace WinFormsApp2
         {
             // Handle selected item change
         }
+
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b')
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar!= '\b')
             {
                 e.Handled = true;
             }
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem != null)
+            if (comboBox1.SelectedItem!= null)
             {
                 MessageBox.Show($"Selected adapter: {comboBox1.SelectedItem}", "Adapter Selection", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 button1Clicked = true;
@@ -75,44 +77,54 @@ namespace WinFormsApp2
 
         private async void button3_Click(object sender, EventArgs e)
         {
-            if (!button1Clicked || !button2Clicked)
+            if (!button1Clicked ||!button2Clicked)
             {
                 MessageBox.Show("Please ensure both Adapter Selection and Time Set actions have been performed.", "Precondition Not Met", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (comboBox1.SelectedItem == null || !int.TryParse(textBox1.Text, out int timeInSeconds) || timeInSeconds <= 0)
+            if (comboBox1.SelectedItem == null ||!int.TryParse(textBox1.Text, out int timeInSeconds) || timeInSeconds <= 0)
             {
                 MessageBox.Show("Please select a network adapter and enter a valid time in seconds.", "Selection and Input Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             string selectedAdapterName = comboBox1.SelectedItem.ToString();
-            await ToggleNetworkAdapterWithNetshAsync(selectedAdapterName, timeInSeconds);
+            var result = await ToggleNetworkAdapterWithNetshAsync(selectedAdapterName, timeInSeconds);
+
+            if (result)
+            {
+                MessageBox.Show($"Network adapter '{selectedAdapterName}' has been disabled and re-enabled.", "Adapter Toggled", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show($"An error occurred while toggling network adapter '{selectedAdapterName}'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             // Optionally, reset the flags if required to enforce the sequence for future button3 clicks
             // button1Clicked = false;
             // button2Clicked = false;
         }
 
-        private async Task ToggleNetworkAdapterWithNetshAsync(string adapterName, int timeInSeconds)
+        private async Task<bool> ToggleNetworkAdapterWithNetshAsync(string adapterName, int timeInSeconds)
         {
             try
             {
                 // Disable the network adapter
                 ExecuteNetshCommand($"interface set interface \"{adapterName}\" admin=disable");
-                MessageBox.Show($"Network adapter '{adapterName}' has been disabled.", "Adapter Disabled", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Wait for the specified time
                 await Task.Delay(timeInSeconds * 1000);
 
                 // Enable the network adapter
                 ExecuteNetshCommand($"interface set interface \"{adapterName}\" admin=enable");
-                MessageBox.Show($"Network adapter '{adapterName}' has been re-enabled.", "Adapter Enabled", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Log the error or display a message here if needed
+                return false;
             }
         }
 
